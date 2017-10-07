@@ -658,13 +658,13 @@ if HAS_PATTERN:
 
         # use simpler, modified pattern.text.en.text.parser.parse that doesn't
         # collapse the output at the end: https://github.com/piskvorky/pattern
-        parsed = parse(content, lemmata=True, collapse=False, light=light)
+        parsed = parse(content, lemmata=True, collapse=False, chunks=False, light=light)
         result = []
         for sentence in parsed:
-            for token, tag, _, _, lemma in sentence:
+            for _token, tag, lemma in sentence:
                 if 2 <= len(lemma) <= 15 and not lemma.startswith('_'):
                     if allowed_tags.match(tag):
-                        lemma += "/" + tag[:2]
+                        lemma += '/' + tag
                         result.append(lemma.encode('utf8'))
         return result
 #endif HAS_PATTERN

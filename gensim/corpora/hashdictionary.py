@@ -3,8 +3,6 @@
 #
 # Copyright (C) 2012 Homer Strong, Radim Rehurek
 # Licensed under the GNU LGPL v2.1 - http://www.gnu.org/licenses/lgpl.html
-
-
 """
 This module implements the concept of HashDictionary -- a mapping between words
 and their integer ids. The ids are computed as `hash(word) % id_range`, the idea
@@ -22,6 +20,8 @@ import logging
 import itertools
 import UserDict
 import zlib
+import csv
+import contextlib
 
 from gensim import utils
 
@@ -207,12 +207,57 @@ class HashDictionary(utils.SaveLoad, UserDict.DictMixin):
 
         Note: use `save`/`load` to store in binary format instead (pickle).
         """
-        logger.info("saving HashDictionary mapping to %s" % fname)
-        with utils.smart_open(fname, 'wb') as fout:
+        fout = fname
+        if type(fout) in (str, unicode):
+            logger.info("saving HashDictionary mapping to %s" % fname)
+            fout = utils.smart_open(fname, 'wb')
+        try: 
             for tokenid in self.keys():
                 words = sorted(self[tokenid])
                 if words:
                     words_df = [(word, self.dfs_debug.get(word, 0)) for word in words]
                     words_df = ["%s(%i)" % item for item in sorted(words_df, key=lambda item: -item[1])]
                     fout.write("%i\t%i\t%s\n" % (tokenid, self.dfs.get(tokenid, 0), '\t'.join(words_df)))
+        finally:
+            if type(fname) in (str, unicode):
+                fout.close()
+                
+    @classmethod    
+    def load_from_text(cls, fname):
+        """
+        Loads HashDictionary from text file, saved by `save_as_text`.
+        """
+        instance = HashDictionary()
+        
+        f = fname
+        if type(f) in (str, unicode):
+            logger.info("loading HashDictionary mapping from %s" % fname)
+            f = utils.smart_open(fname, 'rb')
+            
+        try:
+            numWords = 0
+            numIncorrectFrequencies = 0
+            reader = csv.reader(f, delimiter='\t')
+            for line in reader:
+                tokenid = int(line[0])
+                totalfrequency = int(line[1])
+                
+                totalfrequency2 = 0
+                for aWord in line[2:]:
+                    numWords += 1
+                    token = aWord[:aWord.find('(')]
+                    frequency = int(aWord[aWord.find('(') + 1:-1])
+                    instance.token2id[token] = tokenid
+                    instance.id2token.setdefault(tokenid, set()).add(token)
+                    instance.dfs_debug[token] = frequency
+                    totalfrequency2 += frequency
+                if totalfrequency != totalfrequency2:
+                    numIncorrectFrequencies += 1
+                instance.dfs[tokenid] = totalfrequency2
+            logger.info("loaded %s features. %s incorrect frequencies." % (numWords,numIncorrectFrequencies))
+        finally:
+            if type(fname) in (str, unicode):
+                f.close()
+        return instance
+                
 #endclass HashDictionary

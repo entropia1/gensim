@@ -20,7 +20,7 @@ import sys, os
 
 # -- General configuration -----------------------------------------------------
 
-html_theme = 'gensim_theme'
+#html_theme = 'gensim_theme'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -41,7 +41,7 @@ master_doc = 'indextoc'
 
 # Additional templates that should be rendered to pages, maps page names to
 # template names.
-html_additional_pages = {'index': './_templates/indexcontent.html'}
+#html_additional_pages = {'index': './_templates/indexcontent.html'}
 
 # General information about the project.
 project = u'gensim'
@@ -98,32 +98,15 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-#html_theme = 'default'
+html_theme = 'default'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#main_colour = "#ffbbbb"
-
-html_theme_options = {
-#"rightsidebar": "false",
-#"stickysidebar": "true",
-#"bodyfont": "'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'",
-#"headfont": "'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', 'sans-serif'",
-#"sidebarbgcolor": "fuckyou",
-#"footerbgcolor": "#771111",
-#"relbarbgcolor": "#993333",
-#"sidebartextcolor": "#000000",
-#"sidebarlinkcolor": "#330000",
-#"codebgcolor": "#fffff0",
-#"headtextcolor": "#000080",
-#"headbgcolor": "#f0f0ff",
-#"bgcolor": "#ffffff",
-}
-
+#html_theme_options = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = ['.']
+html_theme_path = []
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -155,8 +138,11 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_use_smartypants = True
 
 # Custom sidebar templates, maps document names to template names.
-html_sidebars = {} #{'index': ['download.html', 'globaltoc.html', 'searchbox.html', 'indexsidebar.html']}
+#html_sidebars = {} #{'index': ['download.html', 'globaltoc.html', 'searchbox.html', 'indexsidebar.html']}
 #html_sidebars = {'index': ['globaltoc.html', 'searchbox.html']}
+
+# If false, no module index is generated.
+#html_domain_indices = True
 
 # If false, no module index is generated.
 #html_use_modindex = True
@@ -165,12 +151,12 @@ html_sidebars = {} #{'index': ['download.html', 'globaltoc.html', 'searchbox.htm
 #html_use_index = True
 
 # If true, the index is split into individual pages for each letter.
-html_split_index = False
+#html_split_index = False
 
 # If true, links to the reST sources are added to the pages.
-html_show_sourcelink = False
+#html_show_sourcelink = False
 
-html_domain_indices = False
+#html_domain_indices = False
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the

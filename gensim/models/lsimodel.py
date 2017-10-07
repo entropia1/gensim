@@ -428,7 +428,7 @@ class LsiModel(interfaces.TransformationABC):
         # with no zero weights.
         if not is_corpus:
             # lsi[single_document]
-            result = matutils.full2sparse(topic_dist.flat)
+            result = numpy.asarray(topic_dist.flat, dtype=float) #matutils.full2sparse(topic_dist.flat) TODO this was me
         else:
             # lsi[chunk of documents]
             result = matutils.Dense2Corpus(topic_dist)

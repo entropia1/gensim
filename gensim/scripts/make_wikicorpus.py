@@ -77,6 +77,7 @@ if __name__ == '__main__':
         # with HashDictionary, the token->id mapping is only fully instantiated now, after `serialize`
         dictionary.filter_extremes(no_below=20, no_above=0.1, keep_n=DEFAULT_DICT_SIZE)
         dictionary.save_as_text(outp + '_wordids.txt.bz2')
+        dictionary.save(outp + '_wordids.pkl.bz2')
         wiki.save(outp + '_corpus.pkl.bz2')
         dictionary.allow_update = False
     else:
